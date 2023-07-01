@@ -21,7 +21,7 @@ class Review(models.Model):
         verbose_name="note"
     )
     headline = models.CharField(max_length=128, verbose_name="titre de la critique")
-    body = models.CharField(max_length=8192, blank=True, verbose_name="commentaire")
+    body = models.TextField(blank=True, verbose_name="commentaire")
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     time_created = models.DateTimeField(auto_now_add=True, verbose_name="critique crée le")
@@ -33,7 +33,7 @@ class UserFollows(models.Model):
         on_delete=models.CASCADE,
         related_name='followed',
     )
-    followed_by = models.ForeignKey(
+    followed_user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='followed_by',
@@ -42,4 +42,4 @@ class UserFollows(models.Model):
     class Meta:
         # ensures we don't get multiple UserFollows instances
         # for unique user-user_followed pairs
-        unique_together = ('user', 'followed_user', )
+        unique_together = ['user', 'followed_user']
