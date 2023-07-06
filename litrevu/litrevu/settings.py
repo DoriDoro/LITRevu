@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'review',
 ]
 
-AUTH_USER_MODEL = 'authuser.User'
+AUTH_USER_MODEL = 'accounts.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
