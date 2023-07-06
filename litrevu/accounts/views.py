@@ -1,3 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.views.generic.edit import FormView
 
-# Create your views here.
+from .forms import RegisterForm
+
+
+class RegisterView(FormView):
+
+    form_class = RegisterForm
+    template_name = 'register.html'
+
+    def form_valid(self, form):
+        pass
+        # return redirect('register_confirmation')

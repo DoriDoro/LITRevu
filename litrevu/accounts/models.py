@@ -14,8 +14,8 @@ class User(AbstractUser):
     EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = ['email']
 
-    username = models.CharField(max_length=50, unique=True, verbose_name="user name")
-    email = models.EmailField(unique=True, verbose_name="email")
+    username = models.CharField(max_length=50, unique=True, verbose_name=_("user name"))
+    email = models.EmailField(unique=True, verbose_name=_("email"))
 
     def __str__(self):
         return self.username
@@ -26,13 +26,13 @@ class UserFollows(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='following',
-        verbose_name="user"
+        verbose_name=_("user")
     )
     followed_user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='followed_by',
-        verbose_name="follower"
+        verbose_name=_("follower")
     )
 
     def __str__(self):
