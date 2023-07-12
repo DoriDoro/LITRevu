@@ -1,23 +1,18 @@
 from django.shortcuts import render, redirect, reverse
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import FormView
 
 from .forms import LoginForm, RegisterForm
 
 
-# def logout_user(request):
-#     logout(request)
-#     return redirect('home')
-
-
-class HomeView(FormView):
+class LoginView(FormView):
 
     form_class = LoginForm
-    template_name = 'homepage.html'
+    template_name = 'login_page.html'
 
     def get_success_url(self):
-        return reverse('register')
+        return reverse('review:review_page')
 
     def form_valid(self, form):
         return super().form_valid(form)
@@ -29,7 +24,7 @@ class RegisterView(FormView):
     template_name = 'register.html'
 
     def get_success_url(self):
-        return reverse('home')
+        return reverse('login')
 
     def form_valid(self, form):
         user = form.save()
