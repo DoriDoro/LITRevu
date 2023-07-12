@@ -4,24 +4,19 @@
 {% block content %}
 <div class="container">
   <div class="row">
-    <div class="col-md-5">
-      <div class="card text-center border-dark bg-light my-3" >
+    <div class="col-md-4">
+      <div class="card border-dark bg-light my-3" >
         <div class="card-body bg-transparent ">
-          <h3> Register now ! </h3>
+          <h4> Register now ! </h4>
           <a class="btn btn-primary" href="{% url 'register' %}" role="button"> Sign up </a>
         </div>
       </div>
     </div>
 
-    <div class="col-md-7">
+    <div class="col-md-5">
       <div class="card border-dark bg-light my-3" >
         <div class="card-body bg-transparent ">
-          <p> {{ message }} </p>
-          <form method="post">
-            {{ form }}
-            {% csrf_token %}
-            <button type="submit"> Log in </button>
-          </form>
+        {% crispy form %}
         </div>
       </div>
     </div>
