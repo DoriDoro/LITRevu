@@ -1,0 +1,11 @@
+
+/*   -- Div, two buttons  --   */
+.btns {
+    display: flex;
+    justify-content: space-between;
+}
+
+/*   --  Div, Cancel button --  */
+.btn-grey {
+ background-color: #e6e6e6;
+}
