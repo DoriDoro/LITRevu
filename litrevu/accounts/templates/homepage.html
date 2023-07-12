@@ -16,7 +16,13 @@
     <div class="col-md-7">
       <div class="card border-dark bg-light my-3" >
         <div class="card-body bg-transparent ">
-LOGIN        </div>
+          <p> {{ message }} </p>
+          <form method="post">
+            {% csrf_token %}
+            {{ form }}
+            <button type="submit"> Log in </button>
+          </form>
+        </div>
       </div>
     </div>
   </div>

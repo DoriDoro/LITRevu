@@ -1,22 +1,69 @@
 from django.shortcuts import render, redirect, reverse
-from django.contrib.auth import login
-from django.views.generic import TemplateView
+from django.contrib.auth import authenticate, login, logout
+from django.views.generic import View
 from django.views.generic.edit import FormView
 
 from .forms import LoginForm, RegisterForm
 
 
-class HomeView(TemplateView):
+# authentication/views.py
+from django.shortcuts import render
+
+from . import forms
+
+
+def login_page(request):
+    form = forms.LoginForm()
+    message = ''
+    if request.method == 'POST':
+        form = forms.LoginForm(request.POST)
+        if form.is_valid():
+            user = authenticate(
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password'],
+            )
+            if user is not None:
+                login(request, user)
+                message = f'Hello {user.username}! You have been logged in'
+            else:
+                message = 'Login failed!'
+    return render(
+        request, 'homepage.html', context={'form': form, 'message': message})
+
+"""
+class HomeView(View):
 
     form_class = LoginForm
     template_name = 'homepage.html'
+
+    def get(self, request):
+        form = self.form_class
+        message = ''
+        return render(request, self.template_name, context={'form': form, 'message': message})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        message = ''
+        if form.is_valid():
+            user = authenticate(
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password'],
+            )
+
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                message = 'Login failed!'
+
+        return render(request, self.template_name, context={'form': form, 'message': message})
+"""
 
 
 class RegisterView(FormView):
 
     form_class = RegisterForm
     template_name = 'register.html'
-    # success_url = 'accounts:home'
 
     def get_success_url(self):
         return reverse('home')

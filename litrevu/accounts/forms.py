@@ -1,13 +1,16 @@
-from django import forms
-from django.contrib.auth.forms import UserCreationForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Button, Div, Fieldset, Layout, Submit
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.utils.translation import gettext_lazy as _
 
 from .models import User
 
 
 class LoginForm(forms.Form):
-    pass
+
+    username = forms.CharField(max_length=50)
+    password = forms.CharField(max_length=50, widget=forms.PasswordInput)
 
 
 class RegisterForm(UserCreationForm):
