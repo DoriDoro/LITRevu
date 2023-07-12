@@ -18,8 +18,8 @@
         <div class="card-body bg-transparent ">
           <p> {{ message }} </p>
           <form method="post">
-            {% csrf_token %}
             {{ form }}
+            {% csrf_token %}
             <button type="submit"> Log in </button>
           </form>
         </div>
