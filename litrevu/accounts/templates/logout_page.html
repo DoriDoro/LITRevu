@@ -1,0 +1,12 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <p class="card-text"> Hope to see you soon! </p>
+        <a href="{% url 'accounts:login' %}" class="card-link">Log in</a>
+      </div>
+    </div>
+</div>
+{% endblock %}
