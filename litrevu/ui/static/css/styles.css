@@ -1,0 +1,8 @@
+
+/*  --  review_page - Feeds headline and buttons  --  */
+.headline_feed {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 10px;
+    width: 100%;
+}
