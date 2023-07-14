@@ -20,8 +20,7 @@ class Ticket(models.Model):
         on_delete=models.CASCADE,
         verbose_name=_("creator of ticket"),
     )
-    # missing: upload_to= and storage=
-    image = models.ImageField(verbose_name=_("image"), blank=True, null=True)
+    image = models.ImageField(upload_to='images', verbose_name=_("image"), blank=True, null=True)
     ticket_created = models.DateTimeField(auto_now_add=True, verbose_name=_("ticket created at"))
 
     def __str__(self):

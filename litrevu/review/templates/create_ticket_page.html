@@ -1,0 +1,14 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+<div class="container main mt-4">
+    <h3> Create a ticket </h3>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit"> Create this ticket </button>
+    </form>
+</div>
+
+
+{% endblock %}

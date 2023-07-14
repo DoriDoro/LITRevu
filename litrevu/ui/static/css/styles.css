@@ -1,14 +1,11 @@
 
 
-
-
-/*  ----  review_page ----   */
-
-/*  -- main container  --  */
+/*  -- main container for fixed navbar  --  */
 .main {
     padding: 40px 0;
 }
 
+/*  ----  review_page ----   */
 /*  -- Feeds headline and buttons  --  */
 .headline_feed {
     display: flex;
