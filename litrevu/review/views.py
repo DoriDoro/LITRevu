@@ -1,4 +1,5 @@
 from django.shortcuts import render, reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView
 from django.views.generic.base import TemplateView
 from django.urls import reverse_lazy
@@ -18,12 +19,18 @@ class ReviewView(TemplateView):
         return context
 
 
-class CreateTicketView(CreateView):
+# login must be required, need a User instance for Ticket.creator
+# Warning in console: `Cookie “csrftoken” has been rejected for invalid domain.`
+class CreateTicketView(LoginRequiredMixin, CreateView):
 
-    model = Ticket
     form_class = TicketCreateForm
     template_name = "create_ticket_page.html"
     success_url = reverse_lazy('accounts:login')
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        
+        return super().form_valid(form)
 
 
 """

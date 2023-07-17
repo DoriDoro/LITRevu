@@ -140,8 +140,25 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOGIN_URL = 'accounts:login'
+LOGIN_REDIRECT_URL = 'review:review_page'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',  # Set the desired log level
+    },
+}
+
 CSRF_TRUSTED_ORIGINS = ['http://localhost:8080', 'https://*.127.0.0.1']
-CSRF_COOKIE_DOMAIN = 'http://localhost:8080'
+CSRF_COOKIE_DOMAIN = '.localhost:8080'
 
 
 # Base url to serve media files
