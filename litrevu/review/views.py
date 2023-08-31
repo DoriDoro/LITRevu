@@ -16,6 +16,7 @@ class ReviewView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['reviews'] = Review.objects.all()
         context['tickets'] = Ticket.objects.all()
+        print('context', context)
         return context
 
 

@@ -6,19 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 class User(AbstractUser):
 
-    class Meta:
-        verbose_name = 'user'
-        verbose_name_plural = 'users'
-
-    USERNAME_FIELD = 'username'
-    EMAIL_FIELD = 'email'
-    REQUIRED_FIELDS = ['email']
-
-    username = models.CharField(max_length=50, unique=True, verbose_name=_("user name"))
-    email = models.EmailField(unique=True, verbose_name=_("email"))
-
-    def __str__(self):
-        return self.username
+    pass
 
 
 class UserFollows(models.Model):

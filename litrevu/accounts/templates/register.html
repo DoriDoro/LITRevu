@@ -3,9 +3,17 @@
 
 {% block content %}
 <div class="container main mt-4">
-  <div class="card border-dark bg-light my-3 w-75" >
+  <div class="card border-dark my-3 w-75" style="background-color: #e3f2fd;">
     <div class="card-body bg-transparent ">
-    {% crispy form %}
+      <h4 class="card-subtitle text-center py-2"> Register now: </h4>
+        <form method="post">
+          {% csrf_token %}
+            {{ form|crispy }}
+            <div style="display: flex; justify-content: space-between;">
+              <button type="submit" class="btn btn-primary margin-btn"> Register </button>
+              <a href="{% url 'accounts:login' %}" role="button" class="btn btn-secondary margin-btn"> Cancel </a>
+            </div>
+        </form>
     </div>
   </div>
 </div>
