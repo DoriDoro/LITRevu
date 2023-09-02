@@ -7,6 +7,9 @@ from .views import (
     CreateReviewForTicketView,
     PostsView,
     PostsModifyReviewView,
+    PostDeleteReviewView,
+    PostsModifyTicketView,
+    PostDeleteTicketView,
 )
 
 app_name = "review"
@@ -25,5 +28,20 @@ urlpatterns = [
         "posts/modify-review/<int:pk>",
         PostsModifyReviewView.as_view(),
         name="modify_review",
+    ),
+    path(
+        "posts/delete-review/<int:pk>/",
+        PostDeleteReviewView.as_view(),
+        name="delete_review",
+    ),
+    path(
+        "posts/modify-ticket/<int:pk>",
+        PostsModifyTicketView.as_view(),
+        name="modify_ticket",
+    ),
+    path(
+        "posts/delete-ticket/<int:pk>/",
+        PostDeleteTicketView.as_view(),
+        name="delete_ticket",
     ),
 ]

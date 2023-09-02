@@ -1,12 +1,6 @@
 from django import forms
 
-from .models import Ticket, Review
-
-
-class TicketForm(forms.ModelForm):
-    class Meta:
-        model = Ticket
-        fields = ["title", "description", "image"]
+from .models import Review
 
 
 class ReviewForm(forms.ModelForm):

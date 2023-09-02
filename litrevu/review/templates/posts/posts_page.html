@@ -43,7 +43,7 @@
                 </div>
               </div>
                 <a class="btn btn-primary" href="{% url 'review:modify_review' pk=review.id %}" role="button" style="margin-top: 20px;"> Modify </a>
-                <a class="btn btn-danger" href="#" role="button" style="margin-top: 20px;"> Delete </a>
+                <a class="btn btn-danger" href="{% url 'review:delete_review' pk=review.id %}" role="button" style="margin-top: 20px;"> Delete </a>
             </div>
           </div>
         </div>
@@ -75,8 +75,8 @@
                   </div>
                 </div>
               </div>
-                <a class="btn btn-primary" href="#" role="button" style="margin-top: 20px;"> Modify </a>
-                <a class="btn btn-danger" href="#" role="button" style="margin-top: 20px;"> Delete </a>
+                <a class="btn btn-primary" href="{% url 'review:modify_ticket' pk=ticket.id %}" role="button" style="margin-top: 20px;"> Modify </a>
+                <a class="btn btn-danger" href="{% url 'review:delete_ticket' pk=ticket.id %}" role="button" style="margin-top: 20px;"> Delete </a>
             </div>
           </div>
         </div>

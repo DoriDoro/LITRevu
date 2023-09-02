@@ -1,0 +1,26 @@
+{% extends 'base_layout.html' %}
+{% load static crispy_forms_tags %}
+
+{% block content %}
+<!--  delete confirmation  -->
+<div class="container main">
+  <div class="row justify-content-center">
+    <div class="col-md-9">
+      <div class="card border-dark my-3" style="background-color: #e3f2fd;">
+        <div class="card-body bg-transparent ">
+          <h4 class="card-subtitle text-center py-2"> Confirmation: </h4>
+          <form method="post">
+          {% csrf_token %}
+            <p> Are you sure you want to delete this ?</p>
+            <div style="display: flex; justify-content: space-between;">
+              <button type="submit" class="btn btn-primary margin-btn"> Yes </button>
+              <a href="{% url 'review:posts_page' %}" role="button" class="btn btn-secondary margin-btn"> Cancel </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--  end delete confirmation  -->
+{% endblock %}

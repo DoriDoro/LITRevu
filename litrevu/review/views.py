@@ -1,9 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, DeleteView
 from django.views.generic.base import TemplateView
 from django.urls import reverse_lazy, reverse
 
-from .forms import TicketForm, ReviewForm
+from .forms import ReviewForm
 from .models import Ticket, Review
 
 
@@ -23,7 +23,7 @@ class CreateTicketView(LoginRequiredMixin, CreateView):
     """Button: 'Ask for a review' View. Create a new ticket"""
 
     model = Ticket
-    form_class = TicketForm
+    fields = ["title", "description", "image"]
     template_name = "feeds/create_ticket_page.html"
     success_url = reverse_lazy("review:feeds_page")
 
@@ -103,4 +103,29 @@ class PostsModifyReviewView(LoginRequiredMixin, UpdateView):
     model = Review
     form_class = ReviewForm
     template_name = "posts/posts_modify_review_page.html"
+    success_url = reverse_lazy("review:posts_page")
+
+
+class PostDeleteReviewView(LoginRequiredMixin, DeleteView):
+    """DeleteView to remove a Review"""
+
+    model = Review
+    template_name = "posts/delete_confirmation.html"
+    success_url = reverse_lazy("review:posts_page")
+
+
+class PostsModifyTicketView(LoginRequiredMixin, UpdateView):
+    """View to modify a ticket"""
+
+    model = Ticket
+    fields = ["title", "description", "image"]
+    template_name = "posts/posts_modify_ticket_page.html"
+    success_url = reverse_lazy("review:posts_page")
+
+
+class PostDeleteTicketView(LoginRequiredMixin, DeleteView):
+    """DeleteView to remove a Review"""
+
+    model = Ticket
+    template_name = "posts/delete_confirmation.html"
     success_url = reverse_lazy("review:posts_page")
