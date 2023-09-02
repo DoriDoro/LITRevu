@@ -44,11 +44,6 @@ class CreateReviewView(LoginRequiredMixin, CreateView):
     template_name = "feeds/create_review_page.html"
     success_url = reverse_lazy("review:feeds_page")
 
-    # TODO: display just the tickets without a review attached!
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context[]
-
     def form_valid(self, form):
         review = form.save(commit=False)
         review.author = self.request.user
@@ -60,7 +55,7 @@ class CreateReviewView(LoginRequiredMixin, CreateView):
 class CreateReviewForTicketView(LoginRequiredMixin, CreateView):
     """Button 'Create a review' on a ticket without a review."""
 
-    # TODO: display the image of ticket
+    # TODO: display the image of ticket in form
     # TODO: remove ticket ChoiceField from ReviewForm
     # TODO: possible to remove a field from form?
     # TODO: possible to change the model of Review
@@ -76,10 +71,9 @@ class CreateReviewForTicketView(LoginRequiredMixin, CreateView):
 
         return context
 
-    def form_valid(self, form):
-        print("here---", form.instance.ticket_id)
-        form.instance.ticket_id = self.kwargs["pk"]
-        return super().form_valid(form)
+    # def form_valid(self, form):
+    #     form.instance.ticket_id = self.kwargs["pk"]
+    #     return super().form_valid(form)
 
     def get_success_url(self):
         return reverse("create_review_ticket", kwargs={"pk": self.object.ticket.pk})

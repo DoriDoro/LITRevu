@@ -69,6 +69,7 @@ class Review(models.Model):
         verbose_name_plural = _("reviews")
         ordering = ["-review_created"]
 
+    # TODO: if new migration, change verbose_name=_('tickets')
     ticket = models.ForeignKey(
         Ticket, on_delete=models.CASCADE, verbose_name=_("ticket")
     )

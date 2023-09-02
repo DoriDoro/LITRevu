@@ -63,6 +63,7 @@ class AboView(LoginRequiredMixin, FormView):
 
         return context
 
+    # TODO: not working
     def form_valid(self, form):
         if "follow" in self.request.POST:
             to_be_followed_user = form.cleaned_data["search"]
