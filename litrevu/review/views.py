@@ -19,15 +19,15 @@ class FeedsView(LoginRequiredMixin, TemplateView):
         return context
 
 
-# login must be required, need a User instance for Ticket.creator
-# Warning in console: `Cookie “csrftoken” has been rejected for invalid domain.`
 class CreateTicketView(LoginRequiredMixin, CreateView):
     form_class = TicketForm
     template_name = "create_ticket_page.html"
-    success_url = reverse_lazy("accounts:login")
+    success_url = reverse_lazy("review:feeds_page")
 
     def form_valid(self, form):
-        form.instance.created_by = self.request.user
+        ticket = form.save(commit=False)
+        ticket.creator = self.request.user
+        form.save()
 
         return super().form_valid(form)
 
