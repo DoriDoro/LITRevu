@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 from django.views.generic.base import TemplateView
 from django.urls import reverse_lazy, reverse
 
@@ -63,6 +63,7 @@ class CreateReviewForTicketView(LoginRequiredMixin, CreateView):
     # TODO: display the image of ticket
     # TODO: remove ticket ChoiceField from ReviewForm
     # TODO: possible to remove a field from form?
+    # TODO: possible to change the model of Review
 
     model = Review
     form_class = ReviewForm
@@ -94,3 +95,12 @@ class PostsView(LoginRequiredMixin, TemplateView):
         context["tickets"] = Ticket.objects.filter(creator=self.request.user)
         context["reviews"] = Review.objects.filter(author=self.request.user)
         return context
+
+
+class PostsModifyReviewView(LoginRequiredMixin, UpdateView):
+    """View to modify a review"""
+
+    model = Review
+    form_class = ReviewForm
+    template_name = "posts/posts_modify_review_page.html"
+    success_url = reverse_lazy("review:posts_page")

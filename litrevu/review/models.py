@@ -50,6 +50,20 @@ class Ticket(models.Model):
 class Review(models.Model):
     """A Review has a rating and a ticket."""
 
+    # ONE_STAR = 1
+    # TWO_STARS = 2
+    # THREE_STARS = 3
+    # FOUR_STARS = 4
+    # FIVE_STARS = 5
+    #
+    # STARS_CHOICES = [
+    #     (ONE_STAR, "1 star"),
+    #     (TWO_STARS, "2 stars"),
+    #     (THREE_STARS, "3 stars"),
+    #     (FOUR_STARS, "4 stars"),
+    #     (FIVE_STARS, "5 stars"),
+    # ]
+
     class Meta:
         verbose_name = _("review")
         verbose_name_plural = _("reviews")
@@ -63,6 +77,7 @@ class Review(models.Model):
         validators=[MinValueValidator(0), MaxValueValidator(5)],
         verbose_name=_("rating"),
     )
+    # rating = models.CharField(max_length=1, choices=STARS_CHOICES)
     headline = models.CharField(max_length=128, verbose_name=_("title of review"))
     body = models.TextField(verbose_name=_("comment"), blank=True)
     author = models.ForeignKey(
