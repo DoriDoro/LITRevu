@@ -5,6 +5,7 @@ from .views import (
     CreateTicketView,
     CreateReviewView,
     CreateReviewForTicketView,
+    PostsView,
 )
 
 app_name = "review"
@@ -18,4 +19,5 @@ urlpatterns = [
         CreateReviewForTicketView.as_view(),
         name="create_review_ticket",
     ),
+    path("posts/", PostsView.as_view(), name="posts_page"),
 ]
