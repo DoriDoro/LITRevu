@@ -139,7 +139,7 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_URL = "accounts:login"
-LOGIN_REDIRECT_URL = "review:review_page"
+LOGIN_REDIRECT_URL = "review:feeds_page"
 LOGOUT_REDIRECT_URL = LOGIN_URL
 
 LOGGING = {
@@ -162,6 +162,5 @@ CSRF_COOKIE_DOMAIN = ".localhost:8080"
 
 # Base url to serve media files
 MEDIA_URL = "/media/"
-
 # Path where media is stored
 MEDIA_ROOT = os.path.join(BASE_DIR, "ui/media/")
