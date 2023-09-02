@@ -1,8 +1,6 @@
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Div, Fieldset, Layout, Submit
 from django import forms
 
-from .models import Ticket
+from .models import Ticket, Review
 
 
 class TicketForm(forms.ModelForm):
@@ -11,21 +9,18 @@ class TicketForm(forms.ModelForm):
         fields = ["title", "description", "image"]
 
 
-"""
-    @property
-    def helper(self):
-        helper = FormHelper()
-        helper.layout = Layout(
-            Fieldset(
-                "Create a ticket",
-                'title',
-                'description',
-                'image',
-            ),
-            Div(
-                Submit('submit', "Create this ticket"),
-            ),
-        )
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ["headline", "rating", "body", "ticket"]
 
-        return helper
-"""
+    rating = forms.ChoiceField(
+        widget=forms.RadioSelect(),
+        choices=[
+            (1, "1 star"),
+            (2, "2 stars"),
+            (3, "3 stars"),
+            (4, "4 stars"),
+            (5, "5 stars"),
+        ],
+    )
