@@ -5,9 +5,9 @@
 <!-- abo page -->
 <div class="container main">
   <div class="container justify-content-center">
-    <div style="margin-bottom: 30px;">
-      <form method="post">
-      {% csrf_token %}
+    <form action="/abo/" method="post">
+    {% csrf_token %}
+      <div style="margin-bottom: 30px;">
         <table class="table table-bordered">
           <tbody>
             <tr>
@@ -15,31 +15,25 @@
             </tr>
           </tbody>
         </table>
-      </form>
-    </div>
+      </div>
 
-    {% if followed_users %}
-    <div style="margin-bottom: 30px;">
-      <form method="post">
-      {% csrf_token %}
-        <h4> {{ request.user }} is following: </h4>
-        {% for followed_user in followed_users %}
-        <table class="table table-bordered">
-          <tbody>
-            <tr>
-              <td> <button type="submit" class="btn btn-warning btn-sm" name="unfollow" value="{{ followed_user.followed_user.id }}" style="margin: 3px"> Unfollow </button> {{ followed_user.followed_user.username }} </td>
-            </tr>
-          </tbody>
-        </table>
-        {% endfor %}
-      </form>
-    </div>
-    {% endif %}
+      {% if followed_users %}
+      <div style="margin-bottom: 30px;">
+          <h4> {{ request.user }} is following: </h4>
+          {% for followed_user in followed_users %}
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td> <button type="submit" class="btn btn-warning btn-sm" name="unfollow" value="{{ followed_user.followed_user.pk }}" style="margin: 3px"> Unfollow </button> {{ followed_user.followed_user.username }} </td>
+              </tr>
+            </tbody>
+          </table>
+          {% endfor %}
+      </div>
+      {% endif %}
 
-    {% if followed_by_others %}
-    <div>
-      <form method="post">
-      {% csrf_token %}
+      {% if followed_by_others %}
+      <div>
         <h4> You are being followed by: </h4>
         {% for user in followed_by_others %}
           <table class="table table-bordered">
@@ -50,10 +44,9 @@
             </tbody>
           </table>
         {% endfor %}
-      </form>
-    </div>
-    {% endif %}
-
+      </div>
+      {% endif %}
+    </form>
   </div>
 </div>
 <!-- End of abo page -->
