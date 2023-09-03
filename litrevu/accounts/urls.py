@@ -10,4 +10,5 @@ urlpatterns = [
     path("logout/", LogoutView.as_view(), name="logout"),
     path("register/", RegisterView.as_view(), name="register"),
     path("abo/", AboFollowView.as_view(), name="abo_page"),
+    path("abo-unfollow/<int:pk>/", AboUnfollowView.as_view(), name="abo_unfollow"),
 ]

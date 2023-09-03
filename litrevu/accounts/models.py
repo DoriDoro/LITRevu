@@ -5,7 +5,6 @@ from django.utils.translation import gettext_lazy as _
 
 
 class User(AbstractUser):
-
     pass
 
 
@@ -13,18 +12,18 @@ class UserFollows(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='following',
-        verbose_name=_("user")
+        related_name="following",
+        verbose_name=_("user"),
     )
     followed_user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='followed_by',
-        verbose_name=_("follower")
+        related_name="followed_by",
+        verbose_name=_("follower"),
     )
 
     def __str__(self):
-        return f"{self.user}"
+        return f"{self.user} <{self.followed_user}>"
 
     class Meta:
-        unique_together = ['user', 'followed_user']
+        unique_together = ["user", "followed_user"]

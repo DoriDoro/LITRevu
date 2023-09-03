@@ -2,7 +2,7 @@ from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic.edit import FormView, CreateView, UpdateView
+from django.views.generic.edit import FormView, CreateView, DeleteView
 
 from .forms import RegisterForm, AboForm
 from .models import UserFollows, User
@@ -22,9 +22,10 @@ class RegisterView(CreateView):
         return super().form_valid(form)
 
 
-# TODO: not working
 class AboFollowView(LoginRequiredMixin, FormView):
-    """View for the abo page. Follow a user"""
+    """View for the abo page. Follow a user and list the users who are following the user"""
+
+    # TODO: you are following this user already
 
     model = UserFollows
     form_class = AboForm
@@ -37,22 +38,10 @@ class AboFollowView(LoginRequiredMixin, FormView):
         context["followed_by_others"] = UserFollows.objects.filter(
             followed_user=self.request.user
         )
-        context["users"] = (
-            User.objects.filter(
-                is_superuser=False,
-            )
-            .exclude(
-                id__in=self.request.user.following.values_list(
-                    "followed_user_id", flat=True
-                )
-            )
-            .exclude(id=self.request.user.id)
-        )
 
         return context
 
     def form_valid(self, form):
-        print("here-----", form.data)
         if "follow" in form.data:
             user_to_follow = get_object_or_404(
                 User, username=form.cleaned_data["search"]
@@ -68,25 +57,19 @@ class AboFollowView(LoginRequiredMixin, FormView):
         return super().form_valid(form)
 
 
-class AboUnfollowView(LoginRequiredMixin, UpdateView):
-    """View to unfollow a user and list the users how are following the user."""
+class AboUnfollowView(LoginRequiredMixin, DeleteView):
+    """View to unfollow a user."""
 
     model = UserFollows
     fields = ["user"]
-    # template_name = "abo_page_unfollow.html"
+    template_name = "posts/delete_confirmation.html"
     success_url = reverse_lazy("accounts:abo_page")
 
-    def get_context_data(self, **kwargs):
-        print("lets see -------", self.object)
-
-    """
-            elif "unfollow" in form.data:
-            print("unfollow", form.data)
-            user_to_unfollow = get_object_or_404(User, id=form.data.get("unfollow"))
-            UserFollows.objects.get(
-                user=self.request.user, followed_user=user_to_unfollow
-            ).delete()
-
-            if form.error:
-                print("errors", form.errors)
-    """
+    # def form_valid(self, form):
+    #     if "unfollow" in form.data:
+    #         print("unfollow", form.data)
+    #         print("------", self.__dict__)
+    # user_to_unfollow = get_object_or_404(User, id=form.data.get("unfollow"))
+    # UserFollows.objects.get(
+    #     user=self.request.user, followed_user=user_to_unfollow
+    # ).delete()
