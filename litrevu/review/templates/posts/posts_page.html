@@ -22,14 +22,14 @@
         <div class="container mt-3">
           <div class="card border-dark my-3 w-80" style="background-color: #e3f2fd;">
             <div class="card-body">
-              <p> posted by <strong>{{ review.author }}</strong> <small style="float: right;"> {{ review.review_created }} </small> </p>
+              <p> posted by <strong>{{ review.author }}</strong> <small style="float: right;"> {{ review.time_created }} </small> </p>
               <hr>
               <h4> {{ review.headline }} </h4>
               <p>{{ review.rating|display_stars }}</p>
               <p> {{ review.body|linebreaks }} </p>
               <div class="card border-dark bg-light">
                 <div class="card-body">
-                  <p> posted by <strong>{{ review.ticket.creator }}</strong> <small style="float: right;"> {{ review.ticket.ticket_created }} </small> </p>
+                  <p> posted by <strong>{{ review.ticket.creator }}</strong> <small style="float: right;"> {{ review.ticket.time_created }} </small> </p>
                   <hr>
                   <div style="display: flex;">
                     <img src="{% get_media_prefix %}{{ review.ticket.image }}" alt="{{ review.ticket.title }}" class="img-fluid img-border">
@@ -64,7 +64,7 @@
         <div class="container mt-3">
           <div class="card border-dark my-3 w-80" style="background-color: #e3f2fd;">
             <div class="card-body">
-              <p> posted by <strong>{{ ticket.creator }}</strong> <small style="float: right;"> {{ ticket.ticket_created }} </small> </p>
+              <p> posted by <strong>{{ ticket.creator }}</strong> <small style="float: right;"> {{ ticket.time_created }} </small> </p>
               <hr>
               <div style="display: flex;">
                 <img src="{% get_media_prefix %}{{ ticket.image }}" alt="{{ ticket.title }}" class="img-fluid img-border" >

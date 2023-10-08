@@ -10,7 +10,7 @@ class Ticket(models.Model):
     class Meta:
         verbose_name = _("ticket")
         verbose_name_plural = _("tickets")
-        ordering = ["-ticket_created"]
+        ordering = ["-time_created"]
 
     title = models.CharField(max_length=128, verbose_name=_("title of ticket"))
     description = models.TextField(
@@ -25,7 +25,7 @@ class Ticket(models.Model):
     image = models.ImageField(
         upload_to="images/", verbose_name=_("image"), blank=True, null=True
     )
-    ticket_created = models.DateTimeField(
+    time_created = models.DateTimeField(
         auto_now_add=True, verbose_name=_("ticket created at")
     )
 
@@ -61,7 +61,7 @@ class Review(models.Model):
     class Meta:
         verbose_name = _("review")
         verbose_name_plural = _("reviews")
-        ordering = ["-review_created"]
+        ordering = ["-time_created"]
 
     ticket = models.ForeignKey(
         "review.Ticket",
@@ -83,7 +83,7 @@ class Review(models.Model):
         related_name="review_author",
         verbose_name=_("author"),
     )
-    review_created = models.DateTimeField(
+    time_created = models.DateTimeField(
         auto_now_add=True, verbose_name=_("review created at")
     )
 

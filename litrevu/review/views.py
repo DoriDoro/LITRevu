@@ -1,3 +1,5 @@
+from itertools import chain
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import CharField, Q, Value
 from django.views.generic import CreateView, UpdateView, DeleteView
@@ -15,7 +17,7 @@ class FeedsView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["tickets"] = (
+        tickets = (
             Ticket.objects.filter(reviews__isnull=True)
             .filter(
                 Q(creator__followed_by__user=self.request.user)
@@ -24,7 +26,19 @@ class FeedsView(LoginRequiredMixin, TemplateView):
             .distinct()
             .annotate(type_of_content=Value("TICKET", CharField()))
         )
-        context["reviews"] = Review.objects.all()
+        reviews = (
+            Review.objects.filter(
+                Q(author__followed_by__user=self.request.user)
+                | Q(author=self.request.user)
+                | Q(ticket__creator=self.request.user)
+            )
+            .distinct()
+            .annotate(type_of_content=Value("REVIEW", CharField()))
+        )
+        context["posts"] = sorted(
+            chain(reviews, tickets), key=lambda post: post.time_created, reverse=True
+        )
+
         return context
 
 
