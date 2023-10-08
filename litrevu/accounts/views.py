@@ -1,11 +1,13 @@
-from django.contrib.auth import login
+from django.contrib.auth import get_user_model, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView, CreateView, DeleteView
 
 from .forms import RegisterForm, AboForm
-from .models import UserFollow, User
+from .models import UserFollow
+
+UserModel = get_user_model()
 
 
 class RegisterView(CreateView):
@@ -13,6 +15,7 @@ class RegisterView(CreateView):
     template_name = "register.html"
     success_url = reverse_lazy("review:feeds_page")
 
+    # TODO: after register not redirected to feeds_page
     def form_valid(self, form):
         user = form.save()
 
@@ -44,7 +47,7 @@ class AboFollowView(LoginRequiredMixin, FormView):
     def form_valid(self, form):
         if "follow" in form.data:
             user_to_follow = get_object_or_404(
-                User, username=form.cleaned_data["search"]
+                UserModel, username=form.cleaned_data["search"]
             )
             user_follows = UserFollow(
                 user=self.request.user, followed_user=user_to_follow
@@ -60,6 +63,8 @@ class AboFollowView(LoginRequiredMixin, FormView):
 class AboUnfollowView(LoginRequiredMixin, DeleteView):
     """View to unfollow a user."""
 
+    # TODO: unfollow to do
+
     model = UserFollow
     fields = ["user"]
     template_name = "posts/delete_confirmation.html"
@@ -69,7 +74,7 @@ class AboUnfollowView(LoginRequiredMixin, DeleteView):
     #     if "unfollow" in form.data:
     #         print("unfollow", form.data)
     #         print("------", self.__dict__)
-    # user_to_unfollow = get_object_or_404(User, id=form.data.get("unfollow"))
+    # user_to_unfollow = get_object_or_404(UserModel, id=form.data.get("unfollow"))
     # UserFollows.objects.get(
     #     user=self.request.user, followed_user=user_to_unfollow
     # ).delete()
