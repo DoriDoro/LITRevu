@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Review
+from .models import Review, Ticket
 
 
 class ReviewForm(forms.ModelForm):

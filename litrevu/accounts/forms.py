@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import User, UserFollows
+from .models import User
 
 
 class RegisterForm(UserCreationForm):
@@ -17,7 +17,7 @@ class AboForm(forms.Form):
 
     search = forms.CharField(max_length=50, label=False)
 
-    def __init__(self, *args, user=None, **kwargs):
+    def __init__(self, user=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.user = user
 

@@ -5,13 +5,13 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import FormView, CreateView, DeleteView
 
 from .forms import RegisterForm, AboForm
-from .models import UserFollows, User
+from .models import UserFollow, User
 
 
 class RegisterView(CreateView):
     form_class = RegisterForm
     template_name = "register.html"
-    success_url = reverse_lazy("review:review_page")
+    success_url = reverse_lazy("review:feeds_page")
 
     def form_valid(self, form):
         user = form.save()
@@ -27,7 +27,7 @@ class AboFollowView(LoginRequiredMixin, FormView):
 
     # TODO: you are following this user already
 
-    model = UserFollows
+    model = UserFollow
     form_class = AboForm
     template_name = "abo_page.html"
     success_url = reverse_lazy("accounts:abo_page")
@@ -35,7 +35,7 @@ class AboFollowView(LoginRequiredMixin, FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["followed_users"] = self.request.user.following.all()
-        context["followed_by_others"] = UserFollows.objects.filter(
+        context["followed_by_others"] = UserFollow.objects.filter(
             followed_user=self.request.user
         )
 
@@ -46,7 +46,7 @@ class AboFollowView(LoginRequiredMixin, FormView):
             user_to_follow = get_object_or_404(
                 User, username=form.cleaned_data["search"]
             )
-            user_follows = UserFollows(
+            user_follows = UserFollow(
                 user=self.request.user, followed_user=user_to_follow
             )
             user_follows.save()
@@ -60,7 +60,7 @@ class AboFollowView(LoginRequiredMixin, FormView):
 class AboUnfollowView(LoginRequiredMixin, DeleteView):
     """View to unfollow a user."""
 
-    model = UserFollows
+    model = UserFollow
     fields = ["user"]
     template_name = "posts/delete_confirmation.html"
     success_url = reverse_lazy("accounts:abo_page")

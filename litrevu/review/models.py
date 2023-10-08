@@ -1,9 +1,6 @@
 from PIL import Image
 from django.core.validators import MinValueValidator, MaxValueValidator
-from django.conf import settings
 from django.db import models
-
-# from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 
@@ -20,8 +17,9 @@ class Ticket(models.Model):
         max_length=2048, verbose_name=_("description"), blank=True
     )
     creator = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        "accounts.User",
         on_delete=models.CASCADE,
+        related_name="ticket_creator",
         verbose_name=_("creator of ticket"),
     )
     image = models.ImageField(
@@ -32,7 +30,7 @@ class Ticket(models.Model):
     )
 
     def __str__(self):
-        return str(self.title)
+        return f"{self.title} | {self.creator}"
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -41,10 +39,6 @@ class Ticket(models.Model):
             img = Image.open(self.image.path)
             img.thumbnail((250, 375))
             img.save(self.image.path)
-
-    def get_absolute_url(self):
-        """return reverse("<path_to_urls.py_file>:<name_of_path>, kwargs={"pk": self.pk}"""
-        pass
 
 
 class Review(models.Model):
@@ -69,9 +63,11 @@ class Review(models.Model):
         verbose_name_plural = _("reviews")
         ordering = ["-review_created"]
 
-    # TODO: if new migration, change verbose_name=_('tickets')
     ticket = models.ForeignKey(
-        Ticket, on_delete=models.CASCADE, verbose_name=_("ticket")
+        "review.Ticket",
+        on_delete=models.CASCADE,
+        related_name="reviews",
+        verbose_name=_("ticket"),
     )
     rating = models.PositiveSmallIntegerField(
         # validates that rating must be between 0 and 5
@@ -82,8 +78,9 @@ class Review(models.Model):
     headline = models.CharField(max_length=128, verbose_name=_("title of review"))
     body = models.TextField(verbose_name=_("comment"), blank=True)
     author = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        "accounts.User",
         on_delete=models.CASCADE,
+        related_name="review_author",
         verbose_name=_("author"),
     )
     review_created = models.DateTimeField(
@@ -92,7 +89,3 @@ class Review(models.Model):
 
     def __str__(self):
         return str(self.headline)
-
-    def get_absolute_url(self):
-        """return reverse("<path_to_urls.py_file>:<name_of_path>, kwargs={"pk": self.pk}"""
-        pass

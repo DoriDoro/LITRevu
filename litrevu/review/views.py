@@ -1,7 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import CharField, Q, Value
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.views.generic.base import TemplateView
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 
 from .forms import ReviewForm, ModifiedReviewForm
 from .models import Ticket, Review
@@ -14,7 +15,15 @@ class FeedsView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["tickets"] = Ticket.objects.all()
+        context["tickets"] = (
+            Ticket.objects.filter(reviews__isnull=True)
+            .filter(
+                Q(creator__followed_by__user=self.request.user)
+                | Q(creator=self.request.user)
+            )
+            .distinct()
+            .annotate(type_of_content=Value("TICKET", CharField()))
+        )
         context["reviews"] = Review.objects.all()
         return context
 
@@ -28,7 +37,6 @@ class CreateTicketView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("review:feeds_page")
 
     def form_valid(self, form):
-        # if form.is_valid:
         ticket = form.save(commit=False)
         ticket.creator = self.request.user
         form.save()
@@ -37,7 +45,10 @@ class CreateTicketView(LoginRequiredMixin, CreateView):
 
 
 class CreateReviewView(LoginRequiredMixin, CreateView):
-    """Button: 'Create a review' on the top of the page. You choose a ticket to review."""
+    """Button: 'Create a review' on the top of the feeds or posts page.
+    You choose a ticket to review."""
+
+    # TODO: limit the queryset to the tickets of followed users
 
     model = Review
     form_class = ReviewForm
